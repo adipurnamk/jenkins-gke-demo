@@ -2,8 +2,8 @@ pipeline {
   agent {
     kubernetes {
       // Without cloud, Jenkins will pick the first cloud in the list
-      cloud "test-cluster"
-      label "jenkins-agent"
+      cloud "jenkins-agent"
+      inheritFrom "jenkins-agent"
       yamlFile "jenkins-build-pod.yaml"
     }
   }
@@ -14,7 +14,7 @@ pipeline {
         dir("hello-app") {
           container("gcloud") {
             // Cheat by using Cloud Build to help us build our container
-            sh "hostname"
+            sh "gcloud builds submit -t ${params.IMAGE_URL}:${GIT_COMMIT}"
           }
         }
       }
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: hello-app
-        image: nginx
+        image: ${params.IMAGE_URL}:${GIT_COMMIT}
 ---
 apiVersion: v1
 kind: Service
