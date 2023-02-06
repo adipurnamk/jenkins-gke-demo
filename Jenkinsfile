@@ -14,7 +14,7 @@ pipeline {
         dir("hello-app") {
           container("gcloud") {
             // Cheat by using Cloud Build to help us build our container
-            sh "gcloud builds submit -t ${params.IMAGE_URL}:${GIT_COMMIT}"
+            sh "hostname"
           }
         }
       }
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: hello-app
-        image: ${params.IMAGE_URL}:${GIT_COMMIT}
+        image: nginx
 ---
 apiVersion: v1
 kind: Service
