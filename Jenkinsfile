@@ -3,7 +3,7 @@ pipeline {
     kubernetes {
       // Without cloud, Jenkins will pick the first cloud in the list
       cloud "jenkins-agent"
-      inheritFrom "jenkins-agent"
+      label "jenkins-agent"
       yamlFile "jenkins-build-pod.yaml"
     }
   }
